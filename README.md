@@ -18,8 +18,8 @@ Install from this repo as a plugin marketplace. Use whichever surface you work i
 
 ### Claude desktop app (Cowork)
 
-1. Open the **Plugins** panel (the **+** menu → **Plugins**).
-2. Choose **Add marketplace from a repository** and enter the repo:
+1. Open the **Plugins** panel (the **+** menu → **Plugins** → **Manage Plugins**).
+2. Choose **Add → **Marketplace** → **Add from a repository** and enter the repo:
    `zeroheight-demos/zeroheight-audit-docs`
 3. Find **zeroheight-audit-docs** in that marketplace and click **Install** (then
    enable it if it isn't enabled automatically).
