@@ -1,0 +1,20 @@
+{
+  "name": "zeroheight-dsds",
+  "owner": {
+    "name": "zeroheight",
+    "email": "luke@zeroheight.com"
+  },
+  "metadata": {
+    "description": "zeroheight plugins for design system documentation quality. Currently ships the DSDS machine-readability audit."
+  },
+  "plugins": [
+    {
+      "name": "zeroheight-audit-docs",
+      "source": "./",
+      "description": "Audit a zeroheight design system's docs for machine-readability against DSDS 0.12.0. Connects to your own zeroheight MCP instance and returns a prioritised, page-by-page list of authoring moves plus ready-to-paste segments.",
+      "version": "0.12.0",
+      "category": "design-systems",
+      "keywords": ["zeroheight", "dsds", "design-system", "documentation", "audit"]
+    }
+  ]
+}

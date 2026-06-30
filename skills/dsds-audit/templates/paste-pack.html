@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+  PASTE PACK TEMPLATE — fill and ship alongside the Markdown audit report.
+
+  Purpose: zeroheight's editor ignores raw Markdown on paste (it only reads the
+  text/plain clipboard flavor). This page renders each audit snippet so the Copy
+  button puts real text/html on the clipboard — tables, headings and lists then
+  paste into zeroheight with formatting intact.
+
+  HOW TO FILL:
+  1. Set the <title> and the .page / .sub text to the styleguide + date.
+  2. Replace the cards between <!-- CARDS:START --> and <!-- CARDS:END --> with one
+     .card per ready-to-paste snippet from the report. Keep the example card's shape.
+  3. Each .snippet must contain RENDERED, SEMANTIC HTML built from the page's own
+     content — real <table>/<thead>/<tbody>, <h2>, <ul>, <p>, <a>. No inline styles
+     (the page CSS styles the preview; the copied innerHTML stays clean). No raw
+     Markdown, no JSON.
+  4. Group cards by page with an <h2 class="group"> heading so authors find them.
+  5. Leave the <style> and <script> blocks unchanged.
+
+  WHAT PASTES CLEANLY vs WHAT NEEDS A CONTAINER FIRST (tell the author in .where):
+  - Clean on paste: tables, H1–H3 headings, bullet/numbered lists, bold/italic,
+    links, paragraphs.
+  - Needs a zeroheight UI container created first, THEN paste the body in:
+    a new tab (e.g. "For Agents"), callouts, Do/Don't blocks, token specimens.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSDS Audit — Paste Pack · {{STYLEGUIDE NAME}}</title>
+<style>
+  :root { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { max-width: 820px; margin: 0 auto; padding: 32px 20px 80px; color: #1c1c1f; line-height: 1.5; }
+  h1.page { font-size: 22px; margin: 0 0 4px; }
+  p.sub { color: #5a5a63; margin: 0 0 28px; font-size: 14px; }
+  h2.group { font-size: 16px; margin: 34px 0 14px; padding-bottom: 6px; border-bottom: 2px solid #ececf0; }
+  .card { border: 1px solid #e3e3e8; border-radius: 10px; margin: 0 0 22px; overflow: hidden; }
+  .card .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: #f6f6f8; border-bottom: 1px solid #e3e3e8; padding: 10px 14px; }
+  .card .where { font-size: 13px; font-weight: 600; }
+  .card .where small { display: block; font-weight: 400; color: #6a6a73; margin-top: 2px; }
+  button.copy { font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid #c5c5cd;
+    background: #fff; border-radius: 7px; padding: 6px 12px; white-space: nowrap; }
+  button.copy:hover { background: #f0f0f3; }
+  button.copy.done { background: #e7f6ec; border-color: #9bd3ad; color: #1c6b38; }
+  .snippet { padding: 16px 18px; }
+  .snippet h1 { font-size: 18px; margin: 4px 0 12px; }
+  .snippet h2 { font-size: 15px; margin: 18px 0 8px; }
+  .snippet h2:first-child { margin-top: 4px; }
+  .snippet table { border-collapse: collapse; width: 100%; margin: 6px 0; font-size: 14px; }
+  .snippet th, .snippet td { border: 1px solid #d9d9e0; padding: 7px 10px; text-align: left; vertical-align: top; }
+  .snippet th { background: #f3f3f6; }
+  .snippet ul, .snippet ol { margin: 6px 0; padding-left: 22px; }
+  .snippet li { margin: 4px 0; }
+  .note { font-size: 13px; color: #6a6a73; background: #fafafb; border: 1px solid #ececf0;
+    border-radius: 8px; padding: 12px 14px; margin: 0 0 28px; }
+</style>
+</head>
+<body>
+  <h1 class="page">Paste Pack — {{STYLEGUIDE NAME}}</h1>
+  <p class="sub">Rendered audit snippets. Click <strong>Copy formatted</strong>, then paste into zeroheight — formatting is preserved.</p>
+
+  <div class="note">
+    <strong>How to use:</strong> these copy as rich content, so they land as real blocks, not raw text.
+    Pasting fills <em>content</em>; zeroheight containers — a new <em>tab</em>, callouts, Do/Don't blocks —
+    are created via the editor UI. For a “For Agents” tab: add the tab first, then paste the body.
+  </div>
+
+  <!-- CARDS:START -->
+
+  <h2 class="group">{{Page name}}</h2>
+
+  <!-- Example card — duplicate this shape per snippet, then delete the example. -->
+  <div class="card">
+    <div class="bar">
+      <span class="where">{{Page › section}}<small>{{what this fixes / container note}}</small></span>
+      <button class="copy" onclick="copySnippet(this)">Copy formatted</button>
+    </div>
+    <div class="snippet">
+      <!-- Rendered, semantic HTML built from the page's own content goes here. -->
+      <table>
+        <thead><tr><th>Guidance</th><th>Why</th><th>Level</th></tr></thead>
+        <tbody>
+          <tr><td>{{real rule}}</td><td>{{real rationale}}</td><td>{{Must / Should / …}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CARDS:END -->
+
+<script>
+function copySnippet(btn) {
+  var snippet = btn.closest('.card').querySelector('.snippet');
+  var done = function () {
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('done');
+    setTimeout(function () { btn.textContent = 'Copy formatted'; btn.classList.remove('done'); }, 1600);
+  };
+  // Primary: copy the rendered selection (carries text/html + text/plain).
+  try {
+    var range = document.createRange();
+    range.selectNodeContents(snippet);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    var ok = document.execCommand('copy');
+    sel.removeAllRanges();
+    if (ok) { done(); return; }
+  } catch (e) { /* fall through */ }
+  // Fallback: async Clipboard API with explicit html + plain flavors.
+  try {
+    navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([snippet.innerHTML], { type: 'text/html' }),
+      'text/plain': new Blob([snippet.innerText], { type: 'text/plain' })
+    })]).then(done);
+  } catch (e2) {
+    alert('Copy not supported here — select the snippet manually and copy.');
+  }
+}
+</script>
+</body>
+</html>

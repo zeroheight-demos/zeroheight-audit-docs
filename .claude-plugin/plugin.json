@@ -1,0 +1,29 @@
+{
+  "name": "zeroheight-audit-docs",
+  "description": "Audit a zeroheight design system's documentation for machine-readability against the Design System Documentation Spec (DSDS 0.12.0). Reads your live styleguide through your own zeroheight MCP connection and returns a prioritised, page-by-page list of authoring moves plus ready-to-paste segments.",
+  "version": "0.12.0",
+  "author": {
+    "name": "zeroheight",
+    "email": "luke@zeroheight.com"
+  },
+  "homepage": "https://designsystemdocspec.org",
+  "repository": "https://github.com/zeroheight-demos/zeroheight-audit-docs",
+  "license": "UNLICENSED",
+  "keywords": [
+    "zeroheight",
+    "dsds",
+    "design-system",
+    "documentation",
+    "machine-readable",
+    "audit",
+    "agent-ready"
+  ],
+  "userConfig": {
+    "zeroheightMcpUrl": {
+      "type": "string",
+      "title": "zeroheight remote MCP URL",
+      "description": "Your personal zeroheight remote MCP URL. Get it from zeroheight.com/settings/user/mcp (or a styleguide's Remote MCP details block). It is unique to you and carries your own credential.",
+      "required": true
+    }
+  }
+}

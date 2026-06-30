@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "zeroheight": {
+      "type": "http",
+      "url": "${user_config.zeroheightMcpUrl}"
+    }
+  }
+}
