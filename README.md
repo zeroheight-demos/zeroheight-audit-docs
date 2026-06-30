@@ -14,10 +14,28 @@ moves plus ready-to-paste segments.
 
 ## Install
 
+Install from this repo as a plugin marketplace. Use whichever surface you work in.
+
+### Claude desktop app (Cowork)
+
+1. Open the **Plugins** panel (the **+** menu → **Plugins**).
+2. Choose **Add marketplace from a repository** and enter the repo:
+   `zeroheight-demos/zeroheight-audit-docs`
+3. Find **zeroheight-audit-docs** in that marketplace and click **Install** (then
+   enable it if it isn't enabled automatically).
+4. When prompted, paste your personal **zeroheight remote MCP URL** — see
+   [Connect your own zeroheight instance](#connect-your-own-zeroheight-instance-required)
+   below.
+
+### Terminal (Claude Code CLI)
+
 ```
 /plugin marketplace add zeroheight-demos/zeroheight-audit-docs
 /plugin install zeroheight-audit-docs@zeroheight-dsds
 ```
+
+> The `/plugin` slash command is **terminal-only** — it isn't available in the
+> desktop app. In the desktop app, use the Plugins panel steps above instead.
 
 ## Connect your own zeroheight instance (required)
 
@@ -25,7 +43,7 @@ This plugin does **not** ship a shared connection. Each user connects their own
 zeroheight workspace — your URL is unique to you and carries your own credential, so
 your docs are only ever read through your account.
 
-When you install/enable the plugin, Claude Code **prompts you for one value** —
+When you install/enable the plugin, you're **prompted for one value** —
 your *zeroheight remote MCP URL*. No file or shell editing.
 
 1. Get your personal URL from **`zeroheight.com/settings/user/mcp`** (or any
