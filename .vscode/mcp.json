@@ -1,0 +1,16 @@
+{
+  "inputs": [
+    {
+      "id": "zeroheightMcpUrl",
+      "type": "promptString",
+      "description": "Your personal zeroheight remote MCP URL (from zeroheight.com/settings/user/mcp, or a styleguide's Remote MCP details block). Unique to you and carries your own credential.",
+      "password": true
+    }
+  ],
+  "servers": {
+    "zeroheight": {
+      "type": "http",
+      "url": "${input:zeroheightMcpUrl}"
+    }
+  }
+}

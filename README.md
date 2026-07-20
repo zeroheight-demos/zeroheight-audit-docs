@@ -54,6 +54,14 @@ directly.
 Or just ask in natural language — e.g. "audit our design system docs for
 machine-readability" — and the `dsds-audit` skill triggers on its own.
 
+## Using it with GitHub Copilot
+
+The audit content is tool-agnostic Markdown, so it also runs in **GitHub Copilot** —
+both VS Code Copilot Chat and the Copilot coding agent — via a thin wrapper
+(`.github/prompts/dsds-audit.prompt.md` + `.vscode/mcp.json`) that reads the same
+reference files. Setup and the invocation flow for both surfaces are in
+[`COPILOT.md`](COPILOT.md).
+
 ## What's in here
 
 - `skills/dsds-audit/` — the audit skill (procedure, pinned DSDS model, authoring
@@ -63,6 +71,8 @@ machine-readability" — and the `dsds-audit` skill triggers on its own.
 - `.claude-plugin/plugin.json` — plugin manifest.
 - `.claude-plugin/marketplace.json` — marketplace listing (this repo is also the
   marketplace).
+- `.github/prompts/dsds-audit.prompt.md`, `.vscode/mcp.json`, `COPILOT.md` — the
+  GitHub Copilot layer (same audit, same reference files; see `COPILOT.md`).
 
 ## Versioning
 
