@@ -82,5 +82,5 @@ in **repository settings**, not a committed file.
 - **Reference loading is explicit.** The prompt file instructs the agent to read the
   six source files first (the Claude skill loads them progressively). Same files, same
   result.
-- **Everything else is identical** — the DSDS 0.12.0 model, authoring moves, rubric,
+- **Everything else is identical** — the DSDS 0.20.1 model, authoring moves, rubric,
   report structure, and paste-pack template are shared, unmodified.

@@ -9,7 +9,7 @@ description: >-
   our styleguide against DSDS", "how AI-ready is our documentation", "what should
   we change to make our components parseable", or "run a DSDS conformance check".
   Reads the live styleguide through the zeroheight MCP, classifies each page to a
-  DSDS entity, and produces a granular, prioritised list of the exact changes to
+  DSDS entry, and produces a granular, prioritised list of the exact changes to
   make. Use it even if the user doesn't say "DSDS" by name but is asking about
   documentation structure, machine/agent readability, or design-system docs QA.
 ---
@@ -21,12 +21,12 @@ This skill audits a design system documented in **zeroheight** against the
 list of changes that would make the docs machine-readable — parseable by tools and
 consumable by agents, not just readable by people.
 
-It targets a **pinned DSDS version** (currently **0.12.0**) so results are
+It targets a **pinned DSDS version** (currently **0.20.1**) so results are
 reproducible. The spec is a draft and changes; this skill audits against the
 frozen model in `reference/`, not against the live site.
 
-**The core principle:** zeroheight authors cannot emit DSDS JSON — they write
-pages. But DSDS's value isn't the JSON syntax, it's the conventions it enforces
+**The core principle:** zeroheight authors cannot emit a DSDS document (0.20.x's
+are YAML/JSON) — they write pages. But DSDS's value isn't the file syntax, it's the conventions it enforces
 (stable names, controlled vocabularies, consistent tables, explicit relationships,
 testable statements), and every one of those is authorable in zeroheight. So this
 audit never tells a customer to "add an `identifier` field." It recommends the
@@ -39,11 +39,11 @@ content]). Findings only zeroheight can fix stay out of the customer action list
 - The **zeroheight MCP** connected (tools `list-pages`, `search-pages`,
   `get-page`, `list-releases`, `get-page-asset`). It exposes the user's styleguide.
 - The reference files in this skill:
-  - `reference/dsds-0.12.0-model.md` — the entity/block/criteria model, pinned.
-  - `reference/entity-block-rules.md` — which blocks each entity accepts and the
-    structured shape each needs (the DSDS-intent layer behind the moves).
+  - `reference/dsds-0.20.1-model.md` — the entry/section/guideline model, pinned.
+  - `reference/entity-block-rules.md` — the section kinds and per-kind scoped fields,
+    and the structured shape each needs (the DSDS-intent layer behind the moves).
   - `reference/zeroheight-mapping.md` — how to classify a zeroheight page to a DSDS
-    entity kind and map its sections onto blocks.
+    entry kind and map its headings onto sections.
   - `reference/zeroheight-authoring-pattern.md` — **the heart of the audit**: each
     DSDS construct translated to the next-best zeroheight authoring move, the
     controlled vocabularies, and the "For Agents" tab spec. Recommendations come
@@ -53,7 +53,7 @@ content]). Findings only zeroheight can fix stay out of the customer action list
   - `templates/audit-report.md` — the deliverable structure.
 
 Read all six before auditing. They are the source of truth; do not audit from
-memory of the spec, do not invent block kinds or levels, and do not recommend a
+memory of the spec, do not invent section kinds or levels, and do not recommend a
 change a customer can't make in the zeroheight editor.
 
 If the zeroheight MCP is not connected, stop and tell the user — the audit reads
@@ -76,16 +76,17 @@ coordinate metadata only; you can list anatomy labels but not infer what they
 point at without the image, so note that limit rather than guessing
 (see `reference/zeroheight-mapping.md`).
 
-### 3. Classify to a DSDS entity
+### 3. Classify to a DSDS entry
 Using `reference/zeroheight-mapping.md`, assign each page a `kind`
-(component / token / token-group / theme / foundation / pattern / guide). Record
-the classification and flag any page that's ambiguous or spans two kinds — let a
-human correct it rather than burying the uncertainty. Intros, changelogs, and
-"welcome" pages are `guide`s, not broken components.
+(component / token / theme / system / generic `entry`). Record the classification
+and flag any page that's ambiguous or spans two kinds — let a human correct it
+rather than burying the uncertainty. Foundations, patterns, and guides are all the
+generic `entry` kind in 0.20.x; intros, changelogs, and "welcome" pages are `entry`s
+(or the `system` entry), not broken components.
 
 ### 4. Rate against the authoring moves
-Map the page's sections to DSDS blocks (`zeroheight-mapping.md`), then run the
-entity's check set from `reference/rubric.md`, scoring against the **zeroheight
+Map the page's headings to DSDS sections (`zeroheight-mapping.md`), then run the
+kind's check set from `reference/rubric.md`, scoring against the **zeroheight
 authoring moves** in `reference/zeroheight-authoring-pattern.md`. For each check:
 
 - **Pass** — the authoring move is in place; the MCP extracts it reliably.
@@ -102,7 +103,7 @@ names, no Level column on guidance, inconsistent props/variants tables, unnamed
 states/anatomy, no linked alternatives, and no For Agents tab.
 
 ### 5. Make every finding a concrete authoring move
-This is the whole value of the audit. Never write "add a guidelines block." Write
+This is the whole value of the audit. Never write "add a guidelines section." Write
 the specific zeroheight move, on the named page, referencing the page's own content,
 and name the DSDS intent:
 
@@ -159,8 +160,10 @@ version if they want something shareable.
   says "mostly there" when no parser can read the docs is worse than nothing.
 - **DSDS references token values, it doesn't store them.** Never flag "missing hex
   values" — values live in the W3C DTCG file a token `source`-s to.
-- **Respect the entity/block rules.** A block on an entity that can't accept it is
-  a schema error (P1), distinct from a missing block.
+- **Respect the entry/section rules.** In 0.20.x any section kind may live on any
+  entry, so there's no "wrong block on this entity" schema error — the findings are
+  *missing* expected sections, *unstructured* ones (Partial), and required scoped
+  fields (a token/theme with no `source`).
 - **Stay located and specific.** Generic advice ("add identifiers everywhere") is
   the failure mode to avoid; tie every change to a page and its content.
 

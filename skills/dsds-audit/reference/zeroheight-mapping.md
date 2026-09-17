@@ -1,72 +1,77 @@
 # Mapping zeroheight pages to DSDS
 
 How a real zeroheight page (returned by `get-page` as Markdown) maps onto DSDS
-entities and blocks. This is the translation layer the audit reasons over: it
-lets you say "this `## States` section *is* your states block, it just isn't
-structured yet" instead of "you have no states block."
+entries and sections. This is the translation layer the audit reasons over: it
+lets you say "this `## States` section *is* your states/traits content, it just
+isn't structured yet" instead of "you have no states section."
 
-## Step 1 — classify the page to a DSDS entity kind
+## Step 1 — classify the page to a DSDS entry kind
 
-Use navigation location first, then page content, to pick the `kind`:
+Use navigation location first, then page content, to pick the `kind`. 0.20.x has a
+small kind set — most non-component/token/theme pages are the generic `entry`:
 
 | zeroheight signal | DSDS `kind` |
 | --- | --- |
 | under **Components**, documents one UI element with anatomy/variants/states | `component` |
-| under **Foundations**, about color/type/spacing/motion/elevation | `foundation` |
-| a token catalogue / "About Design Tokens" listing token names + values | `token-group` (with `token` children) |
+| a token catalogue / "About Design Tokens" listing token names + values | `token` (one entry, or several, grouped via `metadata.group`) |
 | a **Theming** page naming token overrides per mode | `theme` |
-| under **Patterns**, composing multiple components for a need | `pattern` |
-| Intro / getting-started / contribution / changelog / "Using the MCP" | `guide` |
+| the styleguide's overview / home / "About this system" / principles hub | `system` |
+| under **Foundations** (color/type/spacing/motion/elevation), under **Patterns** (multi-component solutions), or a guide (intro / getting-started / contribution / changelog / "Using the MCP") | `entry` (generic) |
 
-Introductions, changelogs, and "welcome" pages are legitimately `guide`s — don't
-audit them as components. Flag the classification you chose so a human can correct
-it; ambiguous pages (e.g. a page that is half foundation, half token catalogue)
+0.12.0's `foundation`, `pattern`, `guide`, and `token-group` kinds no longer exist:
+foundations, patterns, and guides are all the generic **`entry`** kind (the sections
+carry what they document), and token groupings are `token` entries. Introductions,
+changelogs, and "welcome" pages are legitimately generic `entry`s (or the `system`
+entry) — don't audit them as components. Flag the classification you chose so a
+human can correct it; ambiguous pages (e.g. half foundation, half token catalogue)
 should be called out, not silently bucketed.
 
-## Step 2 — map page sections to blocks
+## Step 2 — map page sections to DSDS sections
 
 zeroheight section headings vary by team, so match on intent, not exact title.
-Typical Markdown headings seen in the wild and their DSDS target:
+Typical Markdown headings seen in the wild and their DSDS target (section `kind` +
+`context`, or a scoped field):
 
-| zeroheight section (typical headings) | DSDS block | usual state when first audited |
+| zeroheight section (typical headings) | DSDS target | usual state when first audited |
 | --- | --- | --- |
-| Overview, "Use X when…", When to use / when not to | `useCases` | Partial — prose, no `stance` enum or `alternative` identifiers |
-| Anatomy (annotated diagram + numbered parts) | `anatomy` | Partial — parts named in prose, no `identifier`s |
-| Variants, Component properties table, By hierarchy / By shape | `variants` (+ `api` for the props table) | Partial — table is human-readable, not flag/enum typed |
-| States (+ state screenshots with notes) | `states` | Partial — states named, no `identifier`s |
-| Guidelines, Do / Don't, Best practice | `guidelines` | Partial — no RFC 2119 `level` on each item |
-| Accessibility (contrast, focus, touch target, button-vs-link) | `accessibility` | Partial → Pass if tied to `criteria` with `verification` |
-| Content / Content guidelines (label rules, do/don't) | `content` | Partial — itemise the do/don't pairs |
-| Code / Props table / Storybook link | `api` | Partial — declare the props table or Storybook URL as the machine `source` |
-| Tokens & Variables, "Tokens used" tables | `design-specifications` (component) or token `source` | Partial — tokens shown as a table, not the purpose-keyed map |
-| Theme support / Theming | `theme` overrides or theme links | Partial |
-| Layout & spacing, Touch target | `guidelines` / `design-specifications` | Partial |
-| Principles (foundation) | `principles` | Partial |
-| Spacing/type scale, ramps | `scale` | Partial |
-| Motion / easing / duration | `motion` | Partial |
-| Changelog | `metadata.last-updated` + a `guide`, not a block | n/a |
-| Figma embeds, design callouts | `metadata.links` / `preview` | n/a — these are link metadata |
+| Overview, "Use X when…", When to use / when not to | `guidelines` items with `framing: when-to-use` | Partial — prose, no `level`, no `alternatives` ref |
+| Anatomy (annotated diagram + numbered parts) | `definitions` section, `context: anatomy` | Partial — parts named in prose, no `id`s |
+| Variants, Component properties table, By hierarchy / By shape | component `traits` (enum/boolean); props → `definitions` | Partial — table is human-readable, not keyed traits |
+| States (+ state screenshots with notes) | component `traits` (`setBy: component`) | Partial — states named, no `id`s |
+| Guidelines, Do / Don't, Best practice | `guidelines` (each item an RFC 2119 `level`) | Partial — no `level` on each item |
+| Accessibility (contrast, focus, touch target, button-vs-link) | `guidelines` + `checkedBy`/`checks` | Partial → Pass when tied to a `checks` ref + `checkedBy` |
+| Content / Content guidelines (label rules, do/don't) | `guidelines` (content) | Partial — itemise the do/don't pairs |
+| Code / Props table / Storybook link | `definitions` (props) or component `specs`/`sourceFiles` ref | Partial — declare the props table or Storybook URL as the machine source |
+| Tokens & Variables, "Tokens used" tables | token `source` (DTCG); component `combos`/`refs` to tokens | Partial — tokens shown as a table, not sourced by name |
+| Theme support / Theming | `theme` entry (`colorScheme` + `source`) or a `refs` link | Partial |
+| Layout & spacing, Touch target | `guidelines` / `definitions` | Partial |
+| Principles (system/foundation) | `guidelines` or a `section` with titled items | Partial |
+| Spacing/type scale, ramps | `definitions` / structured `section` items | Partial |
+| Motion / easing / duration | structured `section`/`definitions` items | Partial |
+| Changelog | `metadata.updated`/`reviewed` + a generic `entry`, not a section | n/a |
+| Figma embeds, design callouts | `refs` (`rel: design`) / `metadata.preview` | n/a — these are ref/link metadata |
 
 ## Step 3 — recognise the recurring gaps
 
 Across well-written zeroheight pages, the content is usually *present and good*;
 what's missing is the machine structure. The recurring, high-value findings:
 
-1. **No stable `identifier`s.** Pages have display names ("Primary", "Hover") but
-   no machine keys. This blocks almost every downstream parser/agent use.
+1. **No stable `id`s.** Pages have display names ("Primary", "Hover") but no
+   machine keys. This blocks almost every downstream parser/agent use.
 2. **Guidance lacks RFC 2119 levels.** Rich do/don't prose, but nothing tells a
-   parser which rules are `must` vs `should`.
-3. **useCases lack stance + alternatives.** "Use a link instead" is written for
-   humans but not encoded as `stance: discouraged` + `alternative.identifier`.
-4. **Props/variants are tables, not typed.** A Markdown props table is readable
-   but isn't the `api`/`variants` block; declare its `source` (Storybook) or
-   structure it.
-5. **No `criteria` / verification.** Accessibility and usage rules are narrative;
-   none are expressed as testable criteria with a `verification` mode.
-6. **No `agentDocumentBlocks`.** Nothing in the agent-only layer — no hard
+   parser which rules are `must` vs `should` (vs the new `may`).
+3. **When-to-use lacks framing + alternatives.** "Use a link instead" is written
+   for humans but not encoded as a `framing: when-to-use` guideline with an
+   `alternatives` ref to the other component.
+4. **Props/traits are tables, not typed.** A Markdown props table is readable but
+   isn't a `definitions` section, and variants/states aren't keyed `traits`;
+   declare a `source`/`specs` ref (Storybook/CEM) or structure them.
+5. **No testable checks.** Accessibility and usage rules are narrative; no
+   guideline carries `checkedBy` or a `checks` ref (e.g. axe-core).
+6. **No `for: agent` section.** Nothing in the agent-only audience — no hard
    MUST/MUST-NOT, no look-alike disambiguation (button vs link vs icon-button).
 7. **Tokens shown, not sourced.** Token tables list names + values inline rather
-   than a `token` entity with a `source` pointer to the DTCG file.
+   than a `token` entry with a `source` pointer to the DTCG file.
 
 These seven are the backbone of most reports. Frame each as a concrete, located
 change on the specific page — never a generic "add identifiers."

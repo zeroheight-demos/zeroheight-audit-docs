@@ -1,13 +1,13 @@
 ---
 mode: agent
-description: Audit a zeroheight design system's docs for machine-readability against DSDS 0.12.0 and produce a prioritised, page-by-page list of authoring moves plus ready-to-paste segments.
+description: Audit a zeroheight design system's docs for machine-readability against DSDS 0.20.1 and produce a prioritised, page-by-page list of authoring moves plus ready-to-paste segments.
 ---
 
 # DSDS machine-readability audit (zeroheight)
 
 Audit the user's **zeroheight** design system documentation against the **Design
 System Documentation Spec** (DSDS, [designsystemdocspec.org](https://designsystemdocspec.org)),
-pinned to **0.12.0**, and produce a concrete, page-by-page list of authoring moves
+pinned to **0.20.1**, and produce a concrete, page-by-page list of authoring moves
 plus ready-to-paste segments.
 
 Scope for this run (optional — if the user gave one, e.g. "just Components", honour it;
@@ -22,12 +22,12 @@ otherwise confirm scope before auditing everything): `${input:scope}`
    a generic checklist — the audit is worthless without the live docs.
 
 2. Read **all six** source files below before auditing. They are the source of truth;
-   do not audit from memory of the spec, do not invent block kinds or levels, and do not
+   do not audit from memory of the spec, do not invent section kinds or levels, and do not
    recommend a change a customer can't make in the zeroheight editor.
 
-   - [`skills/dsds-audit/reference/dsds-0.12.0-model.md`](../../skills/dsds-audit/reference/dsds-0.12.0-model.md) — the entity/block/criteria model, pinned.
-   - [`skills/dsds-audit/reference/entity-block-rules.md`](../../skills/dsds-audit/reference/entity-block-rules.md) — which blocks each entity accepts and the structured shape each needs.
-   - [`skills/dsds-audit/reference/zeroheight-mapping.md`](../../skills/dsds-audit/reference/zeroheight-mapping.md) — how to classify a zeroheight page to a DSDS entity and map its sections onto blocks.
+   - [`skills/dsds-audit/reference/dsds-0.20.1-model.md`](../../skills/dsds-audit/reference/dsds-0.20.1-model.md) — the entry/section/guideline model, pinned.
+   - [`skills/dsds-audit/reference/entity-block-rules.md`](../../skills/dsds-audit/reference/entity-block-rules.md) — the section kinds and per-kind scoped fields, and the structured shape each needs.
+   - [`skills/dsds-audit/reference/zeroheight-mapping.md`](../../skills/dsds-audit/reference/zeroheight-mapping.md) — how to classify a zeroheight page to a DSDS entry and map its headings onto sections.
    - [`skills/dsds-audit/reference/zeroheight-authoring-pattern.md`](../../skills/dsds-audit/reference/zeroheight-authoring-pattern.md) — **the heart of the audit**: each DSDS construct translated to the next-best zeroheight authoring move, controlled vocabularies, and the "For Agents" tab spec.
    - [`skills/dsds-audit/reference/rubric.md`](../../skills/dsds-audit/reference/rubric.md) — Pass/Partial/Missing rating, who-can-act tagging, P1/P2/P3 severity, scoring, phrasing.
    - [`skills/dsds-audit/templates/audit-report.md`](../../skills/dsds-audit/templates/audit-report.md) — the deliverable structure.
@@ -35,10 +35,10 @@ otherwise confirm scope before auditing everything): `${input:scope}`
 
 ## Core principle
 
-zeroheight authors cannot emit DSDS JSON — they write pages. But DSDS's value isn't the
-JSON syntax, it's the conventions it enforces (stable names, controlled vocabularies,
+zeroheight authors cannot emit a DSDS document (0.20.x's are YAML/JSON) — they write pages. But DSDS's value isn't the
+file syntax, it's the conventions it enforces (stable names, controlled vocabularies,
 consistent tables, explicit relationships, testable statements), and every one of those
-is authorable in zeroheight. So this audit never tells a customer to "add an `identifier`
+is authorable in zeroheight. So this audit never tells a customer to "add an `id`
 field." It recommends the **zeroheight authoring move** that produces the same
 machine-readable effect, names the DSDS intent behind it, and tags who can act
 (`[Author]` / `[Platform]` / `[New content]`). Findings only zeroheight can fix stay out
@@ -52,10 +52,11 @@ of the customer action list.
 2. **Read each page.** For each in-scope page call `get-page` and read the Markdown. Don't
    infer content from the nav title — open the page. Image annotations are coordinate
    metadata only; note the limit rather than guessing.
-3. **Classify** each page to a DSDS `kind` (component / token / token-group / theme /
-   foundation / pattern / guide) using `zeroheight-mapping.md`. Flag ambiguous pages.
-   Intros, changelogs, "welcome" pages are `guide`s.
-4. **Rate** against the entity's check set (`rubric.md`), scoring against the authoring
+3. **Classify** each page to a DSDS `kind` (component / token / theme / system /
+   generic `entry` — foundations, patterns and guides are all `entry`) using
+   `zeroheight-mapping.md`. Flag ambiguous pages. Intros, changelogs, "welcome"
+   pages are generic `entry`s (or the `system` entry).
+4. **Rate** against the kind's check set (`rubric.md`), scoring against the authoring
    moves (`zeroheight-authoring-pattern.md`): **Pass / Partial / Missing / N/A**. Tag every
    finding `[Author]` / `[Platform]` / `[New content]`. Drop `[Platform]` items from the
    action list. Most real findings are Partial + `[Author]` — phrase as "you're close,
@@ -63,7 +64,7 @@ of the customer action list.
    empty pages, raw hex instead of token names, no Level column on guidance, inconsistent
    props/variants tables, unnamed states/anatomy, no linked alternatives, no For Agents tab.
 5. **Make every finding a concrete authoring move** on the named page, referencing the
-   page's own content, naming the DSDS intent. Never "add a guidelines block." Cite the
+   page's own content, naming the DSDS intent. Never "add a guidelines section." Cite the
    customer's own pages where a good pattern already exists so findings read as
    "standardise what you already do." Order each page's findings P1 → P2 → P3.
 6. **Draft ready-to-paste snippets** — real content, never placeholders, never JSON — in
@@ -82,8 +83,9 @@ of the customer action list.
 
 - **Be honest, not generous.** Lovely prose with no structure is ~0–20%, not 70%.
 - **DSDS references token values, it doesn't store them** — never flag "missing hex values."
-- **Respect the entity/block rules** — a block on an entity that can't accept it is a
-  schema error (P1), distinct from a missing block.
+- **Respect the entry/section rules** — in 0.20.x any section kind may live on any
+  entry, so there's no "wrong block on this entity" error; findings are missing or
+  unstructured sections and required scoped fields (a token/theme with no `source`).
 - **Stay located and specific** — tie every change to a page and its content.
 
 ## Output
