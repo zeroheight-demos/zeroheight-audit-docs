@@ -1,6 +1,6 @@
 # DSDS Machine-Readability Audit — {{Styleguide name}}
 
-> Audited against **DSDS {{version, e.g. 0.12.0}}** on {{date}}.
+> Audited against **DSDS {{version, e.g. 0.20.1}}** on {{date}}.
 > Pages audited: {{n}}. Source: zeroheight styleguide "{{name}}".
 > Every recommendation below is an **authoring move you can make in zeroheight**,
 > and each page comes with **ready-to-paste segments**. Copy them from the companion
@@ -60,7 +60,7 @@ appear anywhere in this report; platform-only items are omitted entirely.
 | --- | --- | --- | --- | --- |
 | {{Title hygiene}} | {{Pass/Partial/Missing}} | Author | P1 | {{e.g. Rename "Checkbox 1" — it collides with "Checkbox". Unique titles act as stable identifiers.}} |
 | {{Guidelines}} | Partial | Author | P2 | {{Move the dos/don'ts into a table with a Level column (Must/Should/Never), reusing your Color-page pattern. DSDS intent: RFC 2119 levels.}} |
-| {{For Agents tab}} | Missing | New content | P3 | {{Add a "For Agents" tab: hard MUST/MUST-NOT rules + button-vs-link disambiguation + acceptance criteria. Reliably read via get-page; the seam for future agentDocumentBlocks export.}} |
+| {{For Agents tab}} | Missing | New content | P3 | {{Add a "For Agents" tab: hard MUST/MUST-NOT rules + button-vs-link disambiguation + acceptance criteria. Reliably read via get-page; the seam for a future `for: agent` section export.}} |
 | … | | | | |
 
 **What's already good:** {{call out the Pass items and strong prose — the page is
@@ -115,7 +115,7 @@ order, e.g. highest-traffic components first.}}
 ## Appendix B — method
 
 Audited each page via the zeroheight MCP (`list-pages` → `get-page`), classified to
-a DSDS entity kind, mapped sections to the zeroheight authoring moves in the skill's
-`reference/` files, and rated each applicable check Pass / Partial / Missing against
-DSDS {{version}}. Scores exclude N/A. "Partial" means the information is present but
-not via the authoring move, so a parser/agent can't reliably consume it.
+a DSDS entry kind, mapped its headings to the zeroheight authoring moves in the
+skill's `reference/` files, and rated each applicable check Pass / Partial / Missing
+against DSDS {{version}}. Scores exclude N/A. "Partial" means the information is
+present but not via the authoring move, so a parser/agent can't reliably consume it.

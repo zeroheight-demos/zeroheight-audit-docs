@@ -2,7 +2,7 @@
 
 Audit your **zeroheight** design system's documentation for machine-readability
 against the **Design System Documentation Spec** (DSDS, [designsystemdocspec.org](https://designsystemdocspec.org)),
-pinned to **0.12.0**. The audit reads your live styleguide through **your own**
+pinned to **0.20.1**. The audit reads your live styleguide through **your own**
 zeroheight MCP connection and returns a prioritised, page-by-page list of authoring
 moves plus ready-to-paste segments.
 
@@ -95,5 +95,5 @@ reference files. Setup and the invocation flow for both surfaces are in
 ## Versioning
 
 The plugin version tracks the **DSDS version it audits against** (currently
-**0.12.0**). When the pinned spec is bumped, re-snapshot `skills/dsds-audit/reference/`
+**0.20.1**). When the pinned spec is bumped, re-snapshot `skills/dsds-audit/reference/`
 and re-tag the plugin to match.

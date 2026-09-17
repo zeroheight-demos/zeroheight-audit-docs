@@ -1,10 +1,10 @@
 ---
-description: Audit a zeroheight design system's docs for machine-readability against DSDS 0.12.0 and produce a prioritised, page-by-page list of authoring moves plus ready-to-paste segments.
+description: Audit a zeroheight design system's docs for machine-readability against DSDS 0.20.1 and produce a prioritised, page-by-page list of authoring moves plus ready-to-paste segments.
 argument-hint: "[styleguide or page scope, e.g. \"just Components\"]"
 ---
 
 Run the **dsds-audit** skill to audit the user's zeroheight design system documentation
-against the Design System Documentation Spec (DSDS, pinned to 0.12.0).
+against the Design System Documentation Spec (DSDS, pinned to 0.20.1).
 
 Scope for this run (optional, may be empty): $ARGUMENTS
 
