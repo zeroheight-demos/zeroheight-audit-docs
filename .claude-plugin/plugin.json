@@ -1,7 +1,7 @@
 {
   "name": "zeroheight-audit-docs",
-  "description": "Audit a zeroheight design system's documentation for machine-readability against the Design System Documentation Spec (DSDS 0.20.1). Reads your live styleguide through your own zeroheight MCP connection and returns a prioritised, page-by-page list of authoring moves plus ready-to-paste segments.",
-  "version": "0.20.1",
+  "description": "Audit a zeroheight design system's documentation for machine-readability against the Design System Documentation Spec (DSDS 0.20.1). Reads your live styleguide through your own zeroheight MCP connection and returns a prioritised, page-by-page list of authoring moves plus ready-to-paste segments. With write access, pushes the fixes into zeroheight as drafts for review.",
+  "version": "0.20.2",
   "author": {
     "name": "zeroheight",
     "email": "luke@zeroheight.com"
@@ -22,7 +22,7 @@
     "zeroheightMcpUrl": {
       "type": "string",
       "title": "zeroheight remote MCP URL",
-      "description": "Your personal zeroheight remote MCP URL. Get it from zeroheight.com/settings/user/mcp (or a styleguide's Remote MCP details block). It is unique to you and carries your own credential.",
+      "description": "Your zeroheight remote MCP URL. To audit, use your personal URL from zeroheight.com/settings/user/mcp (or a styleguide's Remote MCP details block). To push fixes into zeroheight as well, use https://mcp.zeroheight.com/mcp and sign in as an editor or admin.",
       "required": true
     }
   }

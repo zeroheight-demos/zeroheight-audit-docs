@@ -19,3 +19,6 @@ Follow the skill's procedure exactly:
    scope with the user before auditing everything.
 4. Produce the two deliverables the skill specifies: the Markdown audit report and the
    companion `paste-pack.html`. Omit `[Platform]` findings entirely.
+5. If the zeroheight MCP's write tools are available (`edit-page`, `get-draft-changes`),
+   offer to push the fixes into zeroheight as drafts (skill step 8, or `/push-fixes`).
+   Never push without a yes.

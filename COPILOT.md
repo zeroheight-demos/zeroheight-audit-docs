@@ -14,7 +14,8 @@ same six source files the Claude skill reads.
 | File | Purpose |
 |---|---|
 | [`.github/prompts/dsds-audit.prompt.md`](.github/prompts/dsds-audit.prompt.md) | The audit prompt. Invoke it as `/dsds-audit` in Copilot Chat. Mirrors the `/audit-docs` slash command and reads the same reference files. |
-| [`.vscode/mcp.json`](.vscode/mcp.json) | zeroheight MCP config for **VS Code** Copilot. Prompts you for your personal MCP URL on first use. |
+| [`.github/prompts/dsds-push-fixes.prompt.md`](.github/prompts/dsds-push-fixes.prompt.md) | Pushes the audit's fixes into zeroheight as drafts. Invoke it as `/dsds-push-fixes`. Mirrors `/push-fixes` and follows the same `push-fixes.md` procedure. Needs the login connection (below). |
+| [`.vscode/mcp.json`](.vscode/mcp.json) | zeroheight MCP config for **VS Code** Copilot. Prompts you for your MCP URL on first use. |
 
 The **Copilot coding agent** MCP config is not a committed file — it lives in
 repository settings (see below).
@@ -27,6 +28,16 @@ are only ever read through your account.
 
 Get it from **`zeroheight.com/settings/user/mcp`** (or any styleguide's *Remote MCP
 details* block).
+
+### To push fixes: the login URL
+
+The audit only reads. Pushing fixes into zeroheight needs the MCP's write tools,
+which come with the **login** connection for **editors and admins**. When VS Code
+prompts for the URL, enter **`https://mcp.zeroheight.com/mcp`** (no token on the end)
+instead of your personal URL, then sign in to zeroheight and approve the connection
+when VS Code asks. You can also add it from your styleguide's settings → **MCP** →
+**Install in VS Code**. Check `edit-page` and `get-draft-changes` appear in the
+zeroheight tools before running `/dsds-push-fixes`.
 
 ## Surface 1 — VS Code Copilot Chat (interactive)
 
@@ -46,6 +57,16 @@ details* block).
 
    Confirm the zeroheight tools (`list-pages`, `get-page`, …) appear in the agent's
    tool list before it starts; if not, the server isn't connected.
+
+4. To push the fixes as drafts (login connection only), run:
+
+   ```
+   /dsds-push-fixes
+   /dsds-push-fixes just P1
+   ```
+
+   VS Code asks before each write tool runs. Review the drafts in zeroheight before
+   anyone publishes them.
 
 ## Surface 2 — Copilot coding agent (autonomous, on GitHub)
 

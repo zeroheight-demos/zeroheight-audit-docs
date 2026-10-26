@@ -152,8 +152,8 @@ Not "add a guidelines block" but:
 ## Draft ready-to-paste snippets (the most valuable output)
 
 The findings table tells the author *what's wrong*; the **ready-to-paste section
-gives them the fix already written**, so they can update zeroheight piece by piece
-(until the MCP supports writes). For every [Author] or [New content] finding that
+gives them the fix already written**, so they can update zeroheight piece by piece,
+by pasting or by asking the agent to push them as drafts (`push-fixes.md`). For every [Author] or [New content] finding that
 can be expressed as content, draft the actual segment — not the whole page, just the
 specific block to paste — built from the page's own material.
 

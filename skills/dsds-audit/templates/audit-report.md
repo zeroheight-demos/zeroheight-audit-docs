@@ -7,6 +7,9 @@
 > **`paste-pack.html`** (open it in a browser, click *Copy formatted*) so they paste
 > into zeroheight with formatting intact — pasting the raw Markdown here won't keep
 > tables/headings.
+> With write access to zeroheight, you can ask for the fixes to be **pushed** instead:
+> each page's fixes are saved as a draft for review, and nothing goes live until
+> someone publishes it. Pushed fixes are marked **Pushed to draft** below.
 
 ## Executive summary
 
@@ -73,6 +76,8 @@ Drafted segments built from this page's own content. Copy one at a time into the
 editor — not whole pages, just the specific block named. Update piece by piece.
 
 **Paste into: {{Page}} › {{section, e.g. Guidelines}}** — {{what this fixes}}
+{{When fixes have been pushed, add a status line under each snippet:
+"Pushed to draft" or "Not pushed: {{reason}}".}}
 
 ```markdown
 {{The actual filled-in segment — e.g. a guidelines table with the page's real rules

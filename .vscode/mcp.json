@@ -3,7 +3,7 @@
     {
       "id": "zeroheightMcpUrl",
       "type": "promptString",
-      "description": "Your personal zeroheight remote MCP URL (from zeroheight.com/settings/user/mcp, or a styleguide's Remote MCP details block). Unique to you and carries your own credential.",
+      "description": "Your zeroheight remote MCP URL. To audit: your personal URL from zeroheight.com/settings/user/mcp. To push fixes as drafts too: https://mcp.zeroheight.com/mcp, then sign in as an editor or admin.",
       "password": true
     }
   ],

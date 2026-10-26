@@ -14,6 +14,32 @@ the headline for each release.
 > → Manage Plugins → refresh the marketplace, then update the plugin. Your saved
 > zeroheight MCP URL persists across updates.
 
+## [0.20.2] - 2026-10-26
+
+Still audits against **DSDS 0.20.1**. Adds pushing the audit's fixes straight into
+zeroheight, now that the zeroheight MCP can write.
+
+### Added
+- **Push fixes into zeroheight.** After an audit, with the MCP's write tools
+  available, the agent offers to apply the fixes itself: it agrees the scope (by
+  default the [Author] fixes, P1 first, plus the drafted For Agents tabs), skips any
+  page someone else has a draft open on, and saves each page's fixes to its
+  **draft** with small `edit-page` changes. Nothing is published unless the user
+  asks, and then only after showing `get-draft-changes`.
+- `/push-fixes` command, and `/dsds-push-fixes` for GitHub Copilot.
+- `skills/dsds-audit/reference/push-fixes.md`: the procedure, including how each
+  audit move becomes an edit and how to add a For Agents tab to a page with or
+  without tabs.
+
+### Changed
+- The audit offers to push once the report is done (skill step 8). The paste pack
+  is still produced, for anyone without write access and for anything not pushed.
+- The report marks each fix **Pushed to draft** or **Not pushed** with a reason.
+- Docs: how to connect by login (`https://mcp.zeroheight.com/mcp`) to get the write
+  tools, in the README and `COPILOT.md`.
+- Versioning: the patch number now moves for plugin-only releases, so 0.20.x still
+  means DSDS 0.20.1.
+
 ## [0.20.1] - 2026-09-17
 
 Re-targets the audit at **DSDS 0.20.1** (from 0.12.0). 0.20.x is a full model

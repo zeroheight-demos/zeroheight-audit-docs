@@ -10,7 +10,10 @@ description: >-
   we change to make our components parseable", or "run a DSDS conformance check".
   Reads the live styleguide through the zeroheight MCP, classifies each page to a
   DSDS entry, and produces a granular, prioritised list of the exact changes to
-  make. Use it even if the user doesn't say "DSDS" by name but is asking about
+  make. With write access it can then push those fixes into zeroheight as drafts
+  for someone to review, including when the user asks to "apply the audit
+  fixes", "push the suggestions into zeroheight" or "fix the docs it found".
+  Use it even if the user doesn't say "DSDS" by name but is asking about
   documentation structure, machine/agent readability, or design-system docs QA.
 ---
 
@@ -34,6 +37,10 @@ audit never tells a customer to "add an `identifier` field." It recommends the
 the DSDS intent behind it, and tags who can act ([Author] / [Platform] / [New
 content]). Findings only zeroheight can fix stay out of the customer action list.
 
+The audit itself only reads. Once the report is done, a user with write access can
+ask you to **push the fixes into zeroheight**: each page's fixes are saved as a
+draft for someone to review and publish (step 8).
+
 ## What you need
 
 - The **zeroheight MCP** connected (tools `list-pages`, `search-pages`,
@@ -52,9 +59,15 @@ content]). Findings only zeroheight can fix stay out of the customer action list
     P1/P2/P3 severity, scoring, and how to phrase findings.
   - `templates/audit-report.md` — the deliverable structure.
 
-Read all six before auditing. They are the source of truth; do not audit from
+Read all six before auditing. A seventh, `reference/push-fixes.md`, covers
+pushing the fixes into zeroheight. Read it only when the user wants that (step 8). They are the source of truth; do not audit from
 memory of the spec, do not invent section kinds or levels, and do not recommend a
 change a customer can't make in the zeroheight editor.
+
+Pushing fixes also needs the MCP's write tools (`edit-page`,
+`get-draft-changes`, `merge-draft`), which come with the login connection
+(`https://mcp.zeroheight.com/mcp`) for editors and admins. The audit runs fine
+without them.
 
 If the zeroheight MCP is not connected, stop and tell the user — the audit reads
 their live docs and cannot run without it. Don't substitute a generic checklist.
@@ -124,8 +137,8 @@ actual segments to drop into the editor, built from the page's own content, one 
 actionable finding (`rubric.md` → "Draft ready-to-paste snippets"). Real content,
 never placeholders, never JSON. **Always draft a For Agents tab** when the page lacks
 one — fill it with the page's real hard rules, disambiguation, and acceptance
-criteria. This is what lets a customer update piece by piece while the MCP is still
-read-only.
+criteria. These snippets are what gets pushed in step 8, and what a customer pastes
+piece by piece when they'd rather do it by hand or their connection is read-only.
 
 Produce the snippets in **two forms**:
 - In the Markdown report, as fenced code blocks (readable record).
@@ -153,6 +166,18 @@ the customer's to-do list; if they can't do it in the editor, it doesn't appear.
 Fill in `templates/audit-report.md`, save it as Markdown, and offer a .docx/.pdf
 version if they want something shareable.
 
+### 8. Offer to push the fixes into zeroheight
+When the report is done, check whether the write tools are available. If they
+are, offer to push the fixes as drafts. If they aren't, say in one line that a
+login connection (as an editor or admin) would let you push them, and leave it
+there. Never push without a yes.
+
+If the user wants them pushed, follow `reference/push-fixes.md`: agree the scope
+(by default the [Author] fixes, P1 first, plus the drafted For Agents tabs), check
+nobody else has a draft open on each page, then apply each page's snippets as small
+`edit-page` changes saved to its draft. Mark what you pushed in the report, and
+publish (`get-draft-changes`, then `merge-draft`) only when the user asks.
+
 ## Calibration
 
 - **Be honest, not generous.** A page of lovely prose with no structure is ~0–20%,
@@ -177,8 +202,11 @@ Two companion files:
    page's Ready-to-paste snippets, and the For Agents coverage appendix. Granular
    and actionable — the customer acts on it page by page.
 2. A **`paste-pack.html`** from `templates/paste-pack.html` — the same snippets
-   rendered with Copy buttons, so customers paste into zeroheight with formatting
-   intact while the MCP is read-only.
+   rendered with Copy buttons, so customers can paste into zeroheight with
+   formatting intact.
+
+And, when the user asks for it, **drafts in zeroheight**: the fixes pushed onto
+each page's draft (step 8), with the report marking what was pushed.
 
 Offer a .docx/.pdf of the report if they want something shareable. Never put
 [Platform] items in either file.

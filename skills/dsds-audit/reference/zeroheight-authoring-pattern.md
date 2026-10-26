@@ -224,6 +224,14 @@ What survives a paste vs what needs a container first:
   **tab** (e.g. For Agents), **callouts**, **Do/Don't** blocks, **token specimens**.
   Say so in the snippet's note so the author adds the container before pasting.
 
+### With write access: push instead of paste
+
+When the user is connected by login as an editor or admin, the agent can apply the
+same snippets itself and none of the paste limits apply: it writes tabs, callouts,
+do's and don'ts blocks and token mentions directly, saved to each page's draft for
+review. See `push-fixes.md`. The snippets are still drafted the same way, so the
+report and paste pack stay the record of what was proposed.
+
 ## What is NOT a customer finding
 
 Some things only zeroheight can do: emitting a DSDS document (YAML/JSON),
